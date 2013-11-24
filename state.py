@@ -10,6 +10,17 @@ class State(garlicsim.data_structures.State):
     # information there is abolog = modex.log()ut a moment of time in your simulation.
     
     def __init__(self, start_lamps, start_people, start_interventions, light_data, y=0):
+        """
+        start_lamps: instance of lightbulb.Lamps
+        start_people: instance of lightbulb.People 
+        start_intervention: list of lightbulb.Intervention 
+        light_data: Where the data will be saved. A dictionary of the form: { 'Incandescent': [],
+                                     'CFL': [], 
+                                     'Halogen': [],
+                                     'LED': [],
+                                     'time': []
+                                     }
+        """
 
         garlicsim.data_structures.State.__init__(self)
 
@@ -34,6 +45,7 @@ class State(garlicsim.data_structures.State):
 
         for w in range(52):
             self.people.step()
+            #import ipdb; ipdb.set_trace()
             self.lamps.step()
             for interv in self.interventions:
                 interv.step()
