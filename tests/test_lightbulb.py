@@ -21,7 +21,6 @@ class LightbulbCase(unittest.TestCase):
                 'CFL': [],
                 'Halogen': [],
                 'LED': [],
-                'time': []
         }
         self.state = State.create_root(lamps, people, interventions, data)        
 
