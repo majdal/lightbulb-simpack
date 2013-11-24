@@ -4,10 +4,11 @@ from os.path import dirname, realpath
 
 cwd = dirname(dirname(dirname(realpath(__file__))))
 sys.path.append(cwd)
+#import ipdb; ipdb.set_trace()
 
-import lightbulb_simpack
-from lightbulb_simpack.lightbulb.lightbulb import People, Lamps #, Intervention
-from lightbulb_simpack.state import State
+import lightbulb
+from lightbulb.lightbulb.lightbulb import People, Lamps #, Intervention
+from lightbulb.state import State
 import garlicsim
 
 # Here's our "unit tests".
@@ -28,7 +29,7 @@ class LightbulbCase(unittest.TestCase):
         garlicsim.simulate(self.state, 5)
 
     def test_project(self):
-        project = garlicsim.Project(lightbulb_simpack)
+        project = garlicsim.Project(lightbulb)
         root = project.root_this_state(self.state)
         project.begin_crunching(root, 4)
         print project.sync_crunchers()
