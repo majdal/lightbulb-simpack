@@ -348,32 +348,13 @@ class SubsidyIntervention(Intervention):
             
 lamps = Lamps()
 people = People(pop_size)
-    
-if __name__ == "__main__":        
-    lamps = Lamps()
-    
-    people = People(pop_size) 
-
-    interventions = [
-    #BanIntervention(lamps, people, 'Incandescent', 5),
-    #TaxIntervention(lamps, people, 'Incandescent', 5, 200.0),
-    #SubsidyIntervention(lamps, people, 'Incandescent', 5, 0.33),
-    ]
-
-    start_light_data = {"Incandescent": 0,
-                    "CFL": 0,
-                    "Halogen": 0,
-                    "LED": 0}
-
-    root_state = state.State.create_root(lamps, people, interventions, start_light_data)
-    garlicsim.simulate(root_state, 10)
-        
-    if show_graph:    
-        import pylab
-        pylab.plot(time, type_incandescent, label='Incandescent')    
-        pylab.plot(time, type_cfl, label='CFL') 
-        pylab.plot(time, type_halogen, label='Halogen')       
-        pylab.plot(time, type_led, label='LED')       
-        pylab.legend()
-        pylab.show()
+       
+if show_graph:    
+    import pylab
+    pylab.plot(time, type_incandescent, label='Incandescent')    
+    pylab.plot(time, type_cfl, label='CFL') 
+    pylab.plot(time, type_halogen, label='Halogen')       
+    pylab.plot(time, type_led, label='LED')       
+    pylab.legend()
+    pylab.show()
     
