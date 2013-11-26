@@ -6,10 +6,11 @@ cwd = dirname(dirname(dirname(realpath(__file__))))
 sys.path.append(cwd)
 #import ipdb; ipdb.set_trace()
 
-import lightbulb
-from lightbulb.lightbulb.lightbulb import People, Lamps #, Intervention
+from lightbulb.lightbulb_model import People, Lamps #, Intervention
 from lightbulb.state import State
 import garlicsim
+# so creating a garlicsim project works.
+import lightbulb
 
 # Here's our "unit tests".
 class LightbulbCase(unittest.TestCase):

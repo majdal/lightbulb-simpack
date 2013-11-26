@@ -15,8 +15,7 @@ import sys
 import random
 import math
 import garlicsim
-#from lightbulb_simpack import state
-
+import state
 import modex
 log = modex.log()
 
@@ -69,23 +68,23 @@ class Person:
         
         count = int(random.uniform(5, 65))
         
-        for luminaires in range(int(random.uniform(5, 65))):
+        while len(self.luminaires)<count:
             if random.random()< halogen_prob:
-                lamp_type = 'Halogen'
+                type = 'Halogen'
             else:    
-                lamp_type = 'Incandescent'
+                type = 'Incandescent'
                 if is_cfl:
                     if random.random() < cfl_lamps_for_adopters:
-                        lamp_type = 'CFL'
+                        type = 'CFL'
                         
-            if lamp_type == 'Incandescent' or lamp_type=='CFL':
+            if type == 'Incandescent' or type=='CFL':
                 options = []
                 for lum in lum_distribution:
                     if lum['shape']=='Pear':
                         for i in range(lum['value']):
                             options.append(lum)
                 option = random.choice(options)
-            elif lamp_type == 'Halogen':
+            elif type == 'Halogen':
                 options = []
                 for lum in lum_distribution:
                     for i in range(lum['value']):
@@ -95,7 +94,7 @@ class Person:
 
                         
             
-            lamp = Lamps().pick(type, option['socket'], option['shape'])
+            lamp = lamps.pick(type, option['socket'], option['shape'])
             
             if lamp is not None:
                 self.add_lamp(lamp)
@@ -273,8 +272,7 @@ class Lamps:
             lamp['efficiency'] = lamp['output'] / lamp['power']
             lamp['brand'] = lamp['model'].split()[0]
             
-            self.lamps.append(lamp)  
-
+            self.lamps.append(lamp)    
     def pick(self, type, socket, shape):
         lamp_list = list(self.lamps)
         random.shuffle(lamp_list)
@@ -282,10 +280,8 @@ class Lamps:
             if lamp['shape']==shape and lamp['socket']==socket and lamp['type']==type:
                 return lamp
         return None 
-
     def step(self):
         self.steps += 1
-        
     def price_scale(self, type):
         return math.exp(-self.steps/float(price_halflife[type]))
                 
@@ -350,27 +346,28 @@ class SubsidyIntervention(Intervention):
             for i, lamp in enumerate(self.affected):
                 lamp['price'] += self.dsubsidy*self.base[i]
             
-            
+lamps = Lamps()
+people = People(pop_size)
     
-if __name__ == '__main__':
+if __name__ == "__main__":        
     lamps = Lamps()
-        
+    
     people = People(pop_size) 
 
     interventions = [
-        #BanIntervention(lamps, people, 'Incandescent', 5),
-        #TaxIntervention(lamps, people, 'Incandescent', 5, 200.0),
-        #SubsidyIntervention(lamps, people, 'Incandescent', 5, 0.33),
-        ]
+    #BanIntervention(lamps, people, 'Incandescent', 5),
+    #TaxIntervention(lamps, people, 'Incandescent', 5, 200.0),
+    #SubsidyIntervention(lamps, people, 'Incandescent', 5, 0.33),
+    ]
 
     start_light_data = {"Incandescent": 0,
-                        "CFL": 0,
-                        "Halogen": 0,
-                        "LED": 0}
+                    "CFL": 0,
+                    "Halogen": 0,
+                    "LED": 0}
 
     root_state = state.State.create_root(lamps, people, interventions, start_light_data)
     garlicsim.simulate(root_state, 10)
-            
+        
     if show_graph:    
         import pylab
         pylab.plot(time, type_incandescent, label='Incandescent')    
@@ -379,4 +376,4 @@ if __name__ == '__main__':
         pylab.plot(time, type_led, label='LED')       
         pylab.legend()
         pylab.show()
-        
+    

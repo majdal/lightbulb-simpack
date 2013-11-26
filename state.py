@@ -15,10 +15,10 @@ class State(garlicsim.data_structures.State):
         start_people: instance of lightbulb.People 
         start_intervention: list of lightbulb.Intervention 
         light_data: Where the data will be saved. A dictionary of the form: { 'Incandescent': [],
+                                     'Incandescent': [],
                                      'CFL': [], 
                                      'Halogen': [],
                                      'LED': [],
-                                     'time': []
                                      }
         """
 
