@@ -15,7 +15,11 @@ import sys
 import random
 import math
 import garlicsim
+<<<<<<< HEAD
 #from lightbulb_simpack import state
+=======
+from lightbulb_simpack import state
+>>>>>>> 3c01c724552d081437cb0a0762b9d7505db9d56a
 
 import modex
 log = modex.log()
@@ -69,6 +73,7 @@ class Person:
         
         count = int(random.uniform(5, 65))
         
+<<<<<<< HEAD
         for luminaires in range(int(random.uniform(5, 65))):
             if random.random()< halogen_prob:
                 lamp_type = 'Halogen'
@@ -79,13 +84,29 @@ class Person:
                         lamp_type = 'CFL'
                         
             if lamp_type == 'Incandescent' or lamp_type=='CFL':
+=======
+        while len(self.luminaires)<count:
+            if random.random()< halogen_prob:
+                type = 'Halogen'
+            else:    
+                type = 'Incandescent'
+                if is_cfl:
+                    if random.random() < cfl_lamps_for_adopters:
+                        type = 'CFL'
+                        
+            if type == 'Incandescent' or type=='CFL':
+>>>>>>> 3c01c724552d081437cb0a0762b9d7505db9d56a
                 options = []
                 for lum in lum_distribution:
                     if lum['shape']=='Pear':
                         for i in range(lum['value']):
                             options.append(lum)
                 option = random.choice(options)
+<<<<<<< HEAD
             elif lamp_type == 'Halogen':
+=======
+            elif type == 'Halogen':
+>>>>>>> 3c01c724552d081437cb0a0762b9d7505db9d56a
                 options = []
                 for lum in lum_distribution:
                     for i in range(lum['value']):
@@ -95,7 +116,11 @@ class Person:
 
                         
             
+<<<<<<< HEAD
             lamp = Lamps().pick(type, option['socket'], option['shape'])
+=======
+            lamp = lamps.pick(type, option['socket'], option['shape'])
+>>>>>>> 3c01c724552d081437cb0a0762b9d7505db9d56a
             
             if lamp is not None:
                 self.add_lamp(lamp)
@@ -273,8 +298,12 @@ class Lamps:
             lamp['efficiency'] = lamp['output'] / lamp['power']
             lamp['brand'] = lamp['model'].split()[0]
             
+<<<<<<< HEAD
             self.lamps.append(lamp)  
 
+=======
+            self.lamps.append(lamp)    
+>>>>>>> 3c01c724552d081437cb0a0762b9d7505db9d56a
     def pick(self, type, socket, shape):
         lamp_list = list(self.lamps)
         random.shuffle(lamp_list)
@@ -282,10 +311,15 @@ class Lamps:
             if lamp['shape']==shape and lamp['socket']==socket and lamp['type']==type:
                 return lamp
         return None 
+<<<<<<< HEAD
 
     def step(self):
         self.steps += 1
         
+=======
+    def step(self):
+        self.steps += 1
+>>>>>>> 3c01c724552d081437cb0a0762b9d7505db9d56a
     def price_scale(self, type):
         return math.exp(-self.steps/float(price_halflife[type]))
                 
@@ -352,6 +386,7 @@ class SubsidyIntervention(Intervention):
             
             
     
+<<<<<<< HEAD
 if __name__ == '__main__':
     lamps = Lamps()
         
@@ -380,3 +415,33 @@ if __name__ == '__main__':
         pylab.legend()
         pylab.show()
         
+=======
+        
+lamps = Lamps()
+    
+people = People(pop_size) 
+
+interventions = [
+    #BanIntervention(lamps, people, 'Incandescent', 5),
+    #TaxIntervention(lamps, people, 'Incandescent', 5, 200.0),
+    #SubsidyIntervention(lamps, people, 'Incandescent', 5, 0.33),
+    ]
+
+start_light_data = {"Incandescent": 0,
+                    "CFL": 0,
+                    "Halogen": 0,
+                    "LED": 0}
+
+root_state = state.State.create_root(lamps, people, interventions, start_light_data)
+garlicsim.simulate(root_state, 10)
+        
+if show_graph:    
+    import pylab
+    pylab.plot(time, type_incandescent, label='Incandescent')    
+    pylab.plot(time, type_cfl, label='CFL') 
+    pylab.plot(time, type_halogen, label='Halogen')       
+    pylab.plot(time, type_led, label='LED')       
+    pylab.legend()
+    pylab.show()
+    
+>>>>>>> 3c01c724552d081437cb0a0762b9d7505db9d56a
